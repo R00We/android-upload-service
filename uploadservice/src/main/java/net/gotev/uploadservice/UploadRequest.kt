@@ -7,6 +7,8 @@ import net.gotev.uploadservice.data.UploadFile
 import net.gotev.uploadservice.data.UploadNotificationConfig
 import net.gotev.uploadservice.data.UploadTaskParameters
 import net.gotev.uploadservice.extensions.startNewUpload
+import net.gotev.uploadservice.observer.request.LifeCycleRequestObserver
+import net.gotev.uploadservice.observer.request.ManualRequestObserver
 import net.gotev.uploadservice.observer.request.RequestObserver
 import net.gotev.uploadservice.observer.request.RequestObserverDelegate
 import java.util.ArrayList
@@ -73,13 +75,22 @@ constructor(protected val context: Context, protected var serverUrl: String) {
     }
 
     /**
-     * Subscribe to events of this upload request by creating a new request observer.
+     * Subscribe to events of this upload request by creating a new lifecycle request observer.
      * @param context context
      * @param lifecycleOwner lifecycle to use when subscribing for events
      * @param delegate Observer delegate implementation
      */
     fun subscribe(context: Context, lifecycleOwner: LifecycleOwner, delegate: RequestObserverDelegate): RequestObserver {
-        return RequestObserver(context, lifecycleOwner, delegate).apply { subscribe(this@UploadRequest) }
+        return LifeCycleRequestObserver(context, lifecycleOwner, delegate).apply { subscribe(this@UploadRequest) }
+    }
+
+    /**
+     * Subscribe to events of this upload request by creating a new manual request observer.
+     * @param context context
+     * @param delegate Observer delegate implementation
+     */
+    fun subscribe(context: Context, delegate: RequestObserverDelegate): RequestObserver {
+        return ManualRequestObserver(context, delegate).apply { subscribe(this@UploadRequest) }
     }
 
     protected abstract fun getAdditionalParameters(): Parcelable
