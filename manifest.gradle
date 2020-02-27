@@ -11,7 +11,7 @@ ext {
     library_keywords = ['android', 'upload', 'service', 'library', 'background', 'notification']
     library_licenses = ["Apache-2.0"]
     library_licenses_url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
-    library_project_group = 'net.gotev'
+    library_project_group = 'net.r00we'
     library_version = '4.2.1'
     version_code = 40
     min_sdk = 21
